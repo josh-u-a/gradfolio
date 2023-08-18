@@ -5,7 +5,7 @@ description: data analysis | physics | dad jokes
 
 baseurl: /gradfolio #name of GitHub repository
 url: "" #custom url to be used instead of GitHub repository
-email: #
+email: joshyewa@gmail.com #
 
 # Pagination
 paginate: 4
