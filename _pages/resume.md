@@ -1,48 +1,45 @@
 ---
 title:
-layout: default
+layout: post
 permalink: /resume/
 published: true
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <title>Your Interactive Resume</title>
-</head>
-<body>
 
-  <header>
-    <h1>Your Name</h1>
-    <p>Data Enthusiast | Explorer of Insights</p>
-  </header>
+# Education
+**Western Washington University** - *September 2015 - June 2019*
+- Bachelors of Science in Physics, Minors in Mathematics and Astronomy
 
-  <section id="experience">
-    <h2>Experience</h2>
-    <div class="timeline">
-      <div class="timeline-event">
-        <span class="timeline-date">April 2022 - Present</span>
-        <h3>Data Analyst/REVOPS</h3>
-        <p>Sisu Software Inc.</p>
-        <div class="tooltip">
-          <p>Developed python tools for data validation and processing, reducing process time by 90%.</p>
-          <p>Developed tools for validating templates, analyzed churn data using pandas, and created python script for processing & analyzing data, creating KPIs, sending automatic emails, and uploading to Salesforce.</p>
-        </div>
-      </div>
-      <div class="timeline-event">
-        <!-- Add more timeline events here -->
-      </div>
-      <!-- Add more timeline events here -->
-    </div>
-  </section>
+**Northwest Florida State College** - *2012-2014*
+- A.A. in Physics
 
-  <!-- ... other sections ... -->
+# Certification
+**Google Data Analytics Professional Certificate** - *December 2021*
 
-  <footer>
-    <p>Contact: your@email.com | Website: www.yourwebsite.com</p>
-  </footer>
+# Skills
+- **Programming Languages:** Python, R, SQL, C/C++, Javascript, HTML, CSS, Spreadsheets
+- **Python Packages:** Pandas, Bokeh, Sympy, Plotly, Matplotlib, Numpy, Scipy, Jupyter, scikit-learn, Tensor Flow, Seaborn, Flask
+- **Software & Tools:** Relational Databases, BigQuery, Tableau, PowerBI, PostgreSQL, LaTeX, Mathematica, MS Office, MS SQL, LabView, Photoshop, Salesforce, JIRA, Google Apps Script, Power Query
 
-</body>
-</html>
+# Experience
+## Data Analyst/REVOPS - *April 2022 - Present*
+**Sisu Software Inc.**
+- Developed python tools for data validation and processing, reducing process time by 90%.
+- Developed tools for validating templates, analyzed churn data using pandas, and created python script for processing & analyzing data, creating KPIs, sending automatic emails, and uploading to Salesforce.
+
+## Quality Engineer - *July 2019 - March 2022*
+**Silfab Solar**
+- Reduced inventory discrepancy by 90% using data cleaning, queries, and analysis.
+- Wrote a Python script for KPI processing, weekly solar cell analysis, and monthly scrap reports, saving 50 hours/month.
+- Developed a Python dashboard for material failure modes and managed an app for electroluminescent image viewing, saving time in QA inspection and OBA process.
+
+## Physics Lab Instructor - *September 2016 - June 2019*
+**Western Washington University**
+- Teach weekly physics labs for calculus-based physics courses.
+
+## Research Assistant - *March 2017 - June 2018*
+**Western Washington University**
+- Characterizing the bi-stable nature of polymer nanoparticle memory devices.
+
+# Achievements
+- Cum Laude - Northwest Florida State College - *Spring 2014*
+- President's List - Northwest Florida State College - *May 2012 - May 2014*
