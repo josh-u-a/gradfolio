@@ -9,37 +9,38 @@ published: true
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
   <title>Your Interactive Resume</title>
 </head>
-<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f2f2f2; color: #333;">
+<body>
 
-  <header style="background-color: #3498db; color: white; text-align: center; padding: 2rem;">
+  <header>
     <h1>Your Name</h1>
     <p>Data Enthusiast | Explorer of Insights</p>
   </header>
 
-  <section id="education" style="padding: 2rem;">
-    <h2>Education</h2>
-    <ul>
-      <li><strong>Western Washington University</strong> - September 2015 - June 2019</li>
-      <li>Bachelors of Science in Physics, Minors in Mathematics and Astronomy</li>
-      <li><strong>Northwest Florida State College</strong> - 2012-2014</li>
-      <li>A.A. in Physics</li>
-      <!-- ... other education entries ... -->
-    </ul>
+  <section id="experience">
+    <h2>Experience</h2>
+    <div class="timeline">
+      <div class="timeline-event">
+        <span class="timeline-date">April 2022 - Present</span>
+        <h3>Data Analyst/REVOPS</h3>
+        <p>Sisu Software Inc.</p>
+        <div class="tooltip">
+          <p>Developed python tools for data validation and processing, reducing process time by 90%.</p>
+          <p>Developed tools for validating templates, analyzed churn data using pandas, and created python script for processing & analyzing data, creating KPIs, sending automatic emails, and uploading to Salesforce.</p>
+        </div>
+      </div>
+      <div class="timeline-event">
+        <!-- Add more timeline events here -->
+      </div>
+      <!-- Add more timeline events here -->
+    </div>
   </section>
 
-  <!-- ... other resume sections ... -->
+  <!-- ... other sections ... -->
 
-  <section id="achievements" style="padding: 2rem;">
-    <h2>Achievements</h2>
-    <ul>
-      <li>Cum Laude - Northwest Florida State College - Spring 2014</li>
-      <li>President's List - Northwest Florida State College - May 2012 - May 2014</li>
-    </ul>
-  </section>
-
-  <footer style="background-color: #333; color: white; text-align: center; padding: 1rem;">
+  <footer>
     <p>Contact: your@email.com | Website: www.yourwebsite.com</p>
   </footer>
 
