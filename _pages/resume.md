@@ -4,42 +4,44 @@ layout: default
 permalink: /resume/
 published: true
 ---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Interactive Resume</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f2f2f2; color: #333;">
 
-# Education
-**Western Washington University** - *September 2015 - June 2019*
-- Bachelors of Science in Physics, Minors in Mathematics and Astronomy
+  <header style="background-color: #3498db; color: white; text-align: center; padding: 2rem;">
+    <h1>Your Name</h1>
+    <p>Data Enthusiast | Explorer of Insights</p>
+  </header>
 
-**Northwest Florida State College** - *2012-2014*
-- A.A. in Physics
+  <section id="education" style="padding: 2rem;">
+    <h2>Education</h2>
+    <ul>
+      <li><strong>Western Washington University</strong> - September 2015 - June 2019</li>
+      <li>Bachelors of Science in Physics, Minors in Mathematics and Astronomy</li>
+      <li><strong>Northwest Florida State College</strong> - 2012-2014</li>
+      <li>A.A. in Physics</li>
+      <!-- ... other education entries ... -->
+    </ul>
+  </section>
 
-# Certification
-**Google Data Analytics Professional Certificate** - *December 2021*
+  <!-- ... other resume sections ... -->
 
-# Skills
-- **Programming Languages:** Python, R, SQL, C/C++, Javascript, HTML, CSS, Spreadsheets
-- **Python Packages:** Pandas, Bokeh, Sympy, Plotly, Matplotlib, Numpy, Scipy, Jupyter, scikit-learn, Tensor Flow, Seaborn, Flask
-- **Software & Tools:** Relational Databases, BigQuery, Tableau, PowerBI, PostgreSQL, LaTeX, Mathematica, MS Office, MS SQL, LabView, Photoshop, Salesforce, JIRA, Google Apps Script, Power Query
+  <section id="achievements" style="padding: 2rem;">
+    <h2>Achievements</h2>
+    <ul>
+      <li>Cum Laude - Northwest Florida State College - Spring 2014</li>
+      <li>President's List - Northwest Florida State College - May 2012 - May 2014</li>
+    </ul>
+  </section>
 
-# Experience
-## Data Analyst/REVOPS - *April 2022 - Present*
-**Sisu Software Inc.**
-- Developed python tools for data validation and processing, reducing process time by 90%.
-- Developed tools for validating templates, analyzed churn data using pandas, and created python script for processing & analyzing data, creating KPIs, sending automatic emails, and uploading to Salesforce.
+  <footer style="background-color: #333; color: white; text-align: center; padding: 1rem;">
+    <p>Contact: your@email.com | Website: www.yourwebsite.com</p>
+  </footer>
 
-## Quality Engineer - *July 2019 - March 2022*
-**Silfab Solar**
-- Reduced inventory discrepancy by 90% using data cleaning, queries, and analysis.
-- Wrote a Python script for KPI processing, weekly solar cell analysis, and monthly scrap reports, saving 50 hours/month.
-- Developed a Python dashboard for material failure modes and managed an app for electroluminescent image viewing, saving time in QA inspection and OBA process.
-
-## Physics Lab Instructor - *September 2016 - June 2019*
-**Western Washington University**
-- Teach weekly physics labs for calculus-based physics courses.
-
-## Research Assistant - *March 2017 - June 2018*
-**Western Washington University**
-- Characterizing the bi-stable nature of polymer nanoparticle memory devices.
-
-# Achievements
-- Cum Laude - Northwest Florida State College - *Spring 2014*
-- President's List - Northwest Florida State College - *May 2012 - May 2014*
+</body>
+</html>
