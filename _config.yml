@@ -15,13 +15,13 @@ paginate_path: /blog/page:num/
 # Social media links in footer
 # twitter: "#"
 linkedin: "joshyewa"
-stackoverflow: "#"
+stackoverflow: "17198494/joshyewa"
 github: "josh-u-a"
-researchgate: "#"
-orcid: "#"
-quora: "#"
-instagram: "#"
-facebook: "#"
+# researchgate: "#"
+# orcid: "#"
+# quora: "#"
+# instagram: "#"
+# facebook: "#"
 
 
 # Markdown
