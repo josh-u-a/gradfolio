@@ -1,3 +1,8 @@
+---
+layout: post
+title: Another Post
+---
+
 H1 Header
 ============
 
