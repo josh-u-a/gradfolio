@@ -1,5 +1,8 @@
 ---
-layout: post
-title: Resume
-description: nothing to see here
+layout: about
+permalink: /resume
+profile:
+  align: right
+  image: profile.png
+published: true
 ---
