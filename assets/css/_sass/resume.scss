@@ -1,0 +1,38 @@
+
+.timeline-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.timeline {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.timeline-item {
+  position: relative;
+  padding: 20px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.timeline-item h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.timeline-item p {
+  margin: 10px 0;
+  font-size: 0.9rem;
+}
+
+.timeline-item:hover {
+  background-color: #d1d1d1;
+}
