@@ -1,6 +1,8 @@
 ---
-layout: about
-permalink: /resume
+title:
+layout: default
+permalink: /resume/
+published: true
 ---
 
 
