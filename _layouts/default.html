@@ -18,12 +18,14 @@
 
 <body>
     <div class="head-fixed">
-        <h1 class="post-headline">{{site.title}}</h1>
-        <h3 class="post-description">{{site.description}}</h3>
-        {% include navigation.html %}
-        {% seo %}
-        {% include favicon.html %}
-        {% include mathjax.html %}
+        <div class="header-content">
+            <h1 class="post-headline">{{site.title}}</h1>
+            <h3 class="post-description">{{site.description}}</h3>
+            {% include navigation.html %}
+            {% seo %}
+            {% include favicon.html %}
+            {% include mathjax.html %}
+        </div>
     </div>
 
     <main class="content">
