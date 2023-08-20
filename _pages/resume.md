@@ -1,6 +1,6 @@
 ---
 title:
-layout: resume
+layout: default
 permalink: /resume/
 published: true
 ---
