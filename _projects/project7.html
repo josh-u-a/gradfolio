@@ -1,31 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Project 7</title>
-  <meta name="description" content="oh, another project">
-  <!-- Other metadata or CSS/JS includes go here -->
-</head>
-<body>
-  <header>
-    <h1>Project 6</h1>
-    <p>another project</p>
-  </header>
-  
-  <main>
-    <!-- Your main content goes here -->
-    <h1>H1 Header</h1>
-    <p>Paragraphs are separated by a blank line.</p>
-    <p>2nd paragraph. <em>Italic</em>, <strong>bold</strong>, and <code>monospace</code>.</p>
-    <p>Itemized lists look like:</p>
-    <ul>
-      <li>this one</li>
-      <li>that one</li>
-      <li>the other one</li>
-    </ul>
-    <p>Note that the actual text content starts at 4-columns in.</p>
-  </main>
-  
-  <!-- Other footer elements go here -->
-</body>
-</html>
+---
+layout: default
+title: Project 6
+description: another project
+---
+<div class="post-headline">{{page.title}}</div>
+<div class="meta"><small>{{page.date | date: '%B %d, %Y'}}</small></div>
+
+<!-- Markdown content converted to HTML -->
+<h1>Example modified from <a href="http://www.unexpected-vortices.com/sw/rippledoc/quick-markdown-example.html" target="_blank">here</a>.</h1>
+
+<h2>H1 Header</h2>
+<p>Paragraphs are separated by a blank line.</p>
+<p>2nd paragraph. <em>Italic</em>, <strong>bold</strong>, and <code>monospace</code>. Itemized lists look like:</p>
+<ul>
+  <li>this one</li>
+  <li>that one</li>
+  <li>the other one</li>
+</ul>
+<p>Note that the actual text content starts at 4-columns in.</p>
+
+<!-- Comments only for projects -->
+{% if page.path contains '_projects' %}
+    <!-- Your custom logic for project-specific content goes here -->
+{% endif %}
