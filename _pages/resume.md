@@ -6,7 +6,7 @@ published: true
 ---
 
 # Education
-**Western Washington University** - *September 2015 - June 2019*
+<span style="color:green">**Western Washington University**</span> - *September 2015 - June 2019*
 - Bachelors of Science in Physics, Minors in Mathematics and Astronomy
 
 **Northwest Florida State College** - *2012-2014*
