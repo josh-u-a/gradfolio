@@ -1,12 +1,13 @@
 ---
 title:
-layout: default
+layout: resume
 permalink: /resume/
 published: true
 ---
 
-# Education
-<span style="color:green">**Western Washington University**</span> - *September 2015 - June 2019*
+
+<!-- # Education
+**Western Washington University** - *September 2015 - June 2019*
 - Bachelors of Science in Physics, Minors in Mathematics and Astronomy
 
 **Northwest Florida State College** - *2012-2014*
@@ -42,4 +43,4 @@ published: true
 
 # Achievements
 - Cum Laude - Northwest Florida State College - *Spring 2014*
-- President's List - Northwest Florida State College - *May 2012 - May 2014*
+- President's List - Northwest Florida State College - *May 2012 - May 2014* -->
