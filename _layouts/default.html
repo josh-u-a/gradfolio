@@ -53,6 +53,17 @@
         </footer>
     </div>
 
+    <!-- Load JavaScript library for toggling the sidebar -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#toggleSidebarBtn").click(function() {
+                $("#sidebar").toggleClass("sidebar-open");
+            });
+        });
+    </script>
+
+
     {% include analytics.html %}
 </body>
 

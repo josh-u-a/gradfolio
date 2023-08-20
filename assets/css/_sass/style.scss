@@ -214,5 +214,30 @@ blockquote {
   padding: 2em;
 }
 
-/* Other styles remain the same */
+
+/* Style for the sidebar */
+.sidebar {
+  /* Your sidebar styles here */
+  width: 0; /* Start with a closed sidebar */
+  transition: width 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.sidebar-open {
+  width: 250px; /* Adjust as needed */
+}
+
+/* Style for the toggle button */
+.toggle-sidebar-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 1000;
+  color: #333;
+}
+
 
