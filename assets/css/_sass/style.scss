@@ -195,14 +195,32 @@ blockquote {
   }
 }
 
+.tags {
+  margin-bottom: 10px; /* Add some spacing below the tags */
+}
+
 .tag {
-  background-color: #f2f2f2;
-  color: #333;
-  padding: 2px 8px;
-  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 5px;
+  background-color: #007bff; /* Blue background color */
+  color: #fff; /* White text color */
   border-radius: 4px;
   font-size: 14px;
-  margin-right: 8px;
+}
+
+/* Optional: Style for different colors */
+.tag.badge-info {
+  background-color: #17a2b8; /* Info color */
+}
+
+.tag.badge-success {
+  background-color: #28a745; /* Success color */
+}
+
+/* Add hover effect */
+.tag:hover {
+  background-color: #0056b3; /* Darker blue background on hover */
 }
 
 // /* Add styles for the sidebar */
