@@ -47,7 +47,7 @@ a {
 
 p a {
   color: $text-color;
-  text-decoration: none;
+  // text-decoration: none;
   background: -webkit-linear-gradient(transparent 90%, lighten($brand-color, 10%) 10%);
   background: -moz-linear-gradient(transparent 90%, lighten($brand-color, 10%) 10%);
   background: linear-gradient(transparent 90%, lighten($brand-color, 10%) 10%);
