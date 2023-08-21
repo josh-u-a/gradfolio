@@ -224,15 +224,15 @@ blockquote {
 }
 
 
-/* Add some spacing between the image and text */
-.image-with-text {
-  display: flex; /* Use flexbox to arrange items */
-  align-items: center; /* Vertically align items */
-  gap: 10px; /* Add some space between the image and text */
-}
+// /* Add some spacing between the image and text */
+// .image-with-text {
+//   display: flex; /* Use flexbox to arrange items */
+//   align-items: center; /* Vertically align items */
+//   gap: 10px; /* Add some space between the image and text */
+// }
 
-/* Adjust the image size */
-.image-with-text img {
-  width: 70px; /* Set the width to your desired value */
-  height: auto; /* Maintain aspect ratio */
-}
+// /* Adjust the image size */
+// .image-with-text img {
+//   width: 70px; /* Set the width to your desired value */
+//   height: auto; /* Maintain aspect ratio */
+// }
