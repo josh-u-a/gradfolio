@@ -47,7 +47,7 @@ a {
 
 p a {
   color: $text-color;
-  // text-decoration: none;
+  text-decoration: none;
   background: -webkit-linear-gradient(transparent 90%, lighten($brand-color, 10%) 10%);
   background: -moz-linear-gradient(transparent 90%, lighten($brand-color, 10%) 10%);
   background: linear-gradient(transparent 90%, lighten($brand-color, 10%) 10%);
@@ -193,6 +193,16 @@ blockquote {
       border-color: #000000;
       background: #f7f7f7;
   }
+}
+
+.tag {
+  background-color: #f2f2f2;
+  color: #333;
+  padding: 2px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-right: 8px;
 }
 
 // /* Add styles for the sidebar */
