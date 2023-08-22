@@ -10,7 +10,10 @@ H1 Header
 ============
 
 
-{% include_relative myfile.html}
+Example modified from [here](http://www.unexpected-vortices.com/sw/rippledoc/quick-markdown-example.html){:target="_blank"}.
+
+H1 Header
+============
 
 Paragraphs are separated by a blank line.
 
@@ -58,13 +61,19 @@ define foobar() {
 (which makes copying & pasting easier). You can optionally mark the
 delimited block for Pandoc to syntax highlight it by specifying the languagae after the start of a block (e.g. `~~~cpp`) which would look like :
 
-~~~python
-#Library
-import pandas as pd
-pd.set_option("display.max_columns", None)
-import plotly.express as px
+~~~cpp
+#include <iostream>
+using namespace std;
 
-df = pd.read_csv("file.csv")
+int main() 
+{    
+    cout << "Size of char: " << sizeof(char) << " byte" << endl;
+    cout << "Size of int: " << sizeof(int) << " bytes" << endl;
+    cout << "Size of float: " << sizeof(float) << " bytes" << endl;
+    cout << "Size of double: " << sizeof(double) << " bytes" << endl;
+
+    return 0;
+}
 ~~~
 
 ### An H3 header ###
