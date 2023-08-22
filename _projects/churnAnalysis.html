@@ -67,12 +67,13 @@ description: How to fight crime...I mean churn.
 <h4>Step 2: Calculating the correlation coefficients.</h4>
 
 <p>
-  The correlation coefficient, specifically the <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient">Pearson correlation coefficient</a>, gives us a number between 1 and -1 where 1 is perfect positive correlation, -1 is perfect negative correlation, and 0 is no correlation. To calculate the correlation coeficient mathematically, you would use the following
+  The correlation coefficient, specifically the <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient">Pearson correlation coefficient</a>, gives us a number between 1 and -1 where 1 is perfect positive correlation, -1 is perfect negative correlation, and 0 is no correlation. To calculate the correlation coeficient mathematically, you would use the following expression
 </p>
 
-$$r = \frac{\sum\left(x_{i}-\bar{x_{i}}\right)\left(y_{i}-\bar{y}\right)}{\sqrt{\sum\left(x_{i}-\bar{x}\right)^{2} \sum\left(y_{i}-\bar{y}\right)^{2}}}
+$$r = 100\cdot\frac{\sum\left(x_{i}-\bar{x_{i}}\right)\left(y_{i}-\bar{y}\right)}{\sqrt{\sum\left(x_{i}-\bar{x}\right)^{2} \sum\left(y_{i}-\bar{y}\right)^{2}}}
 $$
 
+<p>where
 <ul>
   <li>$r$ = correlation coefficient</li>
   <li>$x_{i}$ = values of the x-variable in a sample</li>
@@ -80,10 +81,13 @@ $$
   <li>$y_{i}$ = values of the y-variable in a sample</li>
   <li>$\bar{y}$ = mean of the values of the y-variable</li>
 </ul>
+</p>
+
+<p>This will provide a value for every feature which represents the strength of the correlation between that feature and the status.</p>
 
 <h4>Step 3: Normalizing and scale the correlation coefficients.</h4>
 
-<p>Scale the absolute value of the correlation coefficients such that their sum equals 100. That is, for every feature </p>
+<p>Here, we scale the absolute value of the correlation coefficients such that their sum equals 100. Plainly said, we find the percentage that the absolute value of each feature's correlation coefficient contributes to the total sum. The mathematical notaion for this is </p>
 
 $$r'_{i} = \frac{|r_{i}|}{\sum r} \qquad \forall i \in \{col_{1}, col_{2}, \ldots, col_{n}\}$$
 
