@@ -227,6 +227,7 @@ blockquote {
 pre.language-python {
   background-color: #263238; /* Dark background color */
   color: #C9D1D9; /* Light text color */
+  text-shadow:#263238;
   padding: 7px 7px 7px 10px;
   border-radius: 3px;
   margin: 20px 0;
@@ -241,6 +242,7 @@ pre.language-python code {
   font-family: 'Bitstream Vera Sans Mono','Courier', monospace;
   color: #C9D1D9; /* Light text color */
   background-color: #263238; /* Dark background color */
+  text-shadow:#263238;
   border-radius: 1px;
 }
 // /* Add some spacing between the image and text */
