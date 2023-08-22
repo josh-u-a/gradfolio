@@ -40,7 +40,7 @@ description: How to fight crime...I mean churn.
 <p>
   In the context of the ice-cream shop, a customer's purchases influence their score, resulting in lower scores for those who don't buy mint-chocolate chip. Other factors like cost, shop hours, and service also contribute to these scores.
 </p>
-<img src="{{site.baseurl}}/assets/images/iceCreamShopSmall.png"alt="Ice Cream Shop">
+<img src="{{site.baseurl}}/assets/images/iceCreamShop.png"alt="Ice Cream Shop">
 </div>
 <p>
   Armed with a wealth of customer data (captured in the health snapshot), we can leverage the power of statistics, and coffee, to estimate <i>retention</i> scores for customers. This process involves prioritizing and grading parameters for each customer. The parameter grades collectively build the retention score for each customer. These retention scores not only guide our focus but also inform the interventions we employ.
@@ -59,49 +59,9 @@ description: How to fight crime...I mean churn.
   <ol>
     <li>A unique id for each customer</li>
     <li>A status. I have five statuses: Active, Cancelled, In Trial, Paused, Non Renewing but I am treating everything that is not Active as Cancelled.</li>
-    <li>Parameters.</li>
+    <li>Parameters. These are the columns, or features, that define the object or row.</li>
   </ol>
 </p>
-
-<p>I begin by putting the data into a `pandas` DataFrame. First import the library.</p>
-
-<pre>
-  <code>import pandas as pd 
-    pd.set_option("display.max_columns", None) # Don't truncate column view</code>
-</pre>
-
-<p>I did a great deal of feature engineering before this step, so `df` is already defined, but if you already have data structured correctly, then import it here. If it is a csv use:</p>
-
-<pre>
-  <code>df = pd.read_csv('path/to/data.csv')</code>
-</pre>
-
-<p>However you get </p>
-
-
-<table>
-  <tr>
-  <th>ID</th>
-  <th>Status</th>
-  <th>Parameter 1</th>
-  <th>Parameter 2</th>
-  <th>...</th>
-  </tr>
-    <tr>
-  <td>123</td>
-  <td>Active</td>
-  <td>Parameter 1</td>
-  <td>Parameter 2</td>
-  <td>...</td>
-  </tr>
-    <tr>
-  <td>124</td>
-  <td>Cancelled</td>
-  <td>Parameter 1</td>
-  <td>Parameter 2</td>
-  <td>...</td>
-  </tr>
-  
   
 </table>
 <h4>Step 2: Calculating the correlation coefficients.</h4>
@@ -110,14 +70,20 @@ description: How to fight crime...I mean churn.
   The correlation coefficient, specifically the <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient">Pearson correlation coefficient</a>, gives us a number between 1 and -1 where 1 is perfect positive correlation, -1 is perfect negative correlation, and 0 is no correlation. To calculate the correlation coeficient mathematically, you would use the following
 </p>
 
-$$r_{i} = \frac{\sum\left(x_{j, i}-\bar{x_{i}}\right)\left(y_{j, i}-\bar{y_{i}}\right)}{\sqrt{\sum\left(x_{j, i}-\bar{x_{i}}\right)^{2} \sum\left(y_{j, i}-\bar{y_{i}}\right)^{2}}} \qquad \forall i \in \{col_{1}, col_{2}, \ldots, col_{n}\}
+$$r = \frac{\sum\left(x_{i}-\bar{x_{i}}\right)\left(y_{i}-\bar{y}\right)}{\sqrt{\sum\left(x_{i}-\bar{x}\right)^{2} \sum\left(y_{i}-\bar{y}\right)^{2}}}
 $$
 
-where the elements consist of the columns from our data. Programmatically, this is a little easier. 
+<ul>
+  <li>$r$ = correlation coefficient</li>
+  <li>$x_{i}$ = values of the x-variable in a sample</li>
+  <li>$\bar{x}$ = mean of the values of the x-variable</li>
+  <li>$y_{i}$ = values of the y-variable in a sample</li>
+  <li>$\bar{y}$ = mean of the values of the y-variable</li>
+</ul>
 
 <h4>Step 3: Normalizing and scale the correlation coefficients.</h4>
 
-<p>Scale the absolute value of the correlation coefficients such that their sum equals 100.</p>
+<p>Scale the absolute value of the correlation coefficients such that their sum equals 100. That is, for every feature </p>
 
 $$r'_{i} = \frac{|r_{i}|}{\sum r} \qquad \forall i \in \{col_{1}, col_{2}, \ldots, col_{n}\}$$
 
