@@ -151,7 +151,7 @@ $$r'_{i} = \frac{|r_{i}|}{\sum r} \qquad \forall i \in \{col_{1}, col_{2}, \ldot
 
 
 <pre>
-  <code>
+  <code class="language-python">
     column_list = []
 for i in df_use.select_dtypes(['number']).drop(['All_Time_Volume__c', 'count', 'Sisu_Platform_ID__c', 'SubscriptionLength__c', 'run_number', 'Snapshot_Run_Number__c', 'status_num', 'weeks_in_hs', 'first_run'], axis=1):
 
