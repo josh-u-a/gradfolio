@@ -26,7 +26,7 @@ description: How to fight crime...I mean churn.
 
 /* Adjust the image size */
 .image-with-text img {
-  width: 200px; /* Set the width to your desired value */
+  width: 300px; /* Set the width to your desired value */
   height: auto; /* Maintain aspect ratio */
 }
 </style>
@@ -66,18 +66,14 @@ description: How to fight crime...I mean churn.
 <p>I begin by putting the data into a `pandas` DataFrame. First import the library.</p>
 
 <pre>
-  <code>
-    import pandas as pd 
-    pd.set_option("display.max_columns", None) # Don't truncate column view
-  </code>
+  <code>import pandas as pd 
+    pd.set_option("display.max_columns", None) # Don't truncate column view</code>
 </pre>
 
 <p>I did a great deal of feature engineering before this step, so `df` is already defined, but if you already have data structured correctly, then import it here. If it is a csv use:</p>
 
 <pre>
-  <code>
-    df = pd.read_csv('path/to/data.csv')
-  </code>
+  <code>df = pd.read_csv('path/to/data.csv')</code>
 </pre>
 
 <p>However you get </p>
