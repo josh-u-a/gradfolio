@@ -14,6 +14,8 @@ description: How to fight crime...I mean churn.
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css">
 
+<link rel="stylesheet" href="{{site.baseurl}}/assets/css/main.css">
+
 <br> 
 
 <span class="tag">Python</span>
@@ -152,7 +154,7 @@ $$r'_{i} = \frac{|r_{i}|}{\sum r} \qquad \forall i \in \{col_{1}, col_{2}, \ldot
 
 <pre>
   <code class="language-python">
-    column_list = []
+column_list = []
 for i in df_use.select_dtypes(['number']).drop(['All_Time_Volume__c', 'count', 'Sisu_Platform_ID__c', 'SubscriptionLength__c', 'run_number', 'Snapshot_Run_Number__c', 'status_num', 'weeks_in_hs', 'first_run'], axis=1):
 
     # Display the column being worked on
@@ -181,6 +183,7 @@ df_grade['score'] = df_grade[df_grade.columns[df_grade.columns.str.contains('_gr
 
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+
 <script>
   // Initialize Prism.js for syntax highlighting
   Prism.highlightAll();
