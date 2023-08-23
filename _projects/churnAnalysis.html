@@ -345,22 +345,18 @@ df_status_corr = df_status_corr.reset_index().rename(columns={'index':'feature'}
 <pre>
   <code class = "language-python">
     def nonlinear_bin(df, degree, weighted = False):
+
     '''Creates a non linear model to represent data as function for granular grading'''
-    if weighted == True:
+
+    if weighted == True: # If true accounts for all customers in each point
         x = np.array(df['count']*df['active_count'])
-    else: 
+    else: # If weighted == False will treat each point equally
         x = np.array(df['count'])
     y = np.array(df['percent'])
-
-    # print('Length of x:',len(x))
-    # print('Length of y:',len(y))
-
 
     # Create polynomial features
     poly = PolynomialFeatures(degree=degree)
     X_poly = poly.fit_transform(x[:, np.newaxis])
-
-    # print('Length of X_poly:',len(X_poly))
 
     # Perform linear regression on polynomial features
     model = LinearRegression()
@@ -372,17 +368,13 @@ df_status_corr = df_status_corr.reset_index().rename(columns={'index':'feature'}
 def active_change(df, column, degree = 2, weighted = False, nlr = True):
 
     '''
-    This find the status ratio for the values in the bin. 
+    This finds the status ratio for the values in the bin. 
     If the bin_size = 1, then this determines the status ratio for 
     every value. 
     For example, if the data was [1, 1, 1, 2, 1, 1, 2, 2, 2] and 
     [Active, Cancelled, Cancelled, Active, Cancelled, Active, Cancelled, Cancelled, Cancelled]
     We would get values 1: 2/5 = 0.4 and 2:1/4 = 0.25
-    
     '''
-    # count = np.linspace(df[column].min().astype(int),df[column].max().astype(int),1 + df[column].max().astype(int) - df[column].min().astype(int))
-    # percent = np.zeros(len(np.linspace(df[column].min().astype(int),df[column].max().astype(int),1 + df[column].max().astype(int) - df[column].min().astype(int))))
-    # df_list = pd.DataFrame.from_dict({"count":count, "percent":percent})
     
     count = df[column].unique()
     percent = np.zeros(len(count))
@@ -405,15 +397,10 @@ def active_change(df, column, degree = 2, weighted = False, nlr = True):
     # stop the model at min = 0 and max = 1
     df_list.loc[df_list['model'] > 1,'model'] = 1
     df_list.loc[df_list['model'] < 0,'model'] = 0
-    # df_list = df_list.merge(pd.DataFrame(df[column].value_counts().rename('active_count')).reset_index(), left_on = 'count', right_on = 'index', how = 'left').sort_values('count')
-
-
-
-    # df_list['percent'] = df_list['percent']*100
+   
     df_list = df_list.reset_index(drop = True) #df_list[df_list['percent']!=0].reset_index(drop = True)
 
     return df_list
-
   </code>
 </pre>
 
