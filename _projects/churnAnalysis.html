@@ -152,7 +152,7 @@ from sklearn.preprocessing import PolynomialFeatures
   </code>
 </pre>
 
-<p>By this point I have already gather data from several sources and cleaned the data, joined the data, created necessary columns (feature engineerin), and formatted teh data to be. Actually, before we get to the next step, we need to enumerate the <code>Status</code> and drop the <code>Company Name</code></p>
+<p>By this point I have already gathered data from several sources and cleaned the data, joined the data, created necessary columns (feature engineering), and formatted the data to be. Actually, before we get to the next step, we need to enumerate the <code>Status</code> and drop the <code>Company Name</code></p>
 
 <table class = "table table-dark">
   <thead>
@@ -240,13 +240,90 @@ $$
 </ul>
 </p>
 
-<p>This will provide a value for every feature which represents the strength of the correlation between that feature and the status.</p>
+<p>This will provide a value for every feature which represents the strength of the correlation between that feature and the status. Fortunatley, this is easy to calculate using pandas.</p>
+
+<pre>
+  <code class = "language-python">
+# Compute the correlation matrix -- this creates a matrix of correlations between all features
+corr_matrix = df.corr()
+
+# Find the correlations with the 'Status' column -- Isolate the correlation with 'Status'
+status_corr = corr_matrix['Status'].sort_values(ascending=False)
+</code>
 
 <h4>Step 3: Normalize and scale the correlation coefficients.</h4>
 
 <p>Here, we scale the absolute value of the correlation coefficients such that their sum equals 100. Plainly said, we find the percentage that the absolute value of each feature's correlation coefficient contributes to the total sum. The mathematical notaion for this is </p>
 
 $$r'_{i} = \frac{|r_{i}|}{\sum r} \qquad \forall i \in \{col_{1}, col_{2}, \ldots, col_{n}\}$$
+
+<p>Programatically, this is </p>
+
+<pre>
+  <code class = "language-python">
+# Create list of the absolute values of the correlations
+status_corr_abs =  np.abs(status_corr.values)
+
+# Create Correlation DataFrame -- Create a table with the status correlation 
+# because we will want to edit a few things
+df_status_corr = pd.DataFrame(status_corr)
+
+# add absolute value list to DataFrame
+df_status_corr['abs_value'] = status_corr_abs 
+
+
+df_status_corr = df_status_corr[['Insert actionable numeric columns']]
+
+# Measure the sum of the absolute value of each correlation
+status_corr_total = df_status_corr['abs_value'].sum()
+
+# Create list of the scaled values
+scaled_values = [(v / status_corr_total) * 100 for v in df_status_corr['abs_value']]
+
+# Add list of scaled values to the DataFrame and reset the index of the DataFrame
+df_status_corr['scaled_values'] = scaled_values
+df_status_corr = df_status_corr.reset_index().rename(columns={'index':'feature'})
+  </code>
+</pre>
+
+<p>The DataFrame will be a table that looks something like this:</p>
+
+<table class = "table table-dark">
+  <thead>
+    <tr>
+      <th>feature</th>
+      <th>status</th>
+      <th>abs_value</th>
+      <th>scaled_value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Users</td>
+      <td>0.039738</td>
+      <td>0.039738</td>
+      <td>0.408113</td>
+    </tr>
+    <tr>
+      <td>Active Users</td>
+      <td>1</td>
+      <td>7.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <td>Tasks</td>
+      <td>0.042244</td>
+      <td>0.042244</td>
+      <td>0.433855</td>
+    </tr>
+    <tr>
+      <td>Tasks Completed</td>
+      <td>-0.044006</td>
+      <td>0.044006</td>
+      <td>0.451951</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>For each feature, this number is the <i>maximum contribution</i> that the feature can make toward the score of the row, or, in this context, the customer. This is worth remembering for later.</p>
 
