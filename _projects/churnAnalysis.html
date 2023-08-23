@@ -293,7 +293,7 @@ df_status_corr = df_status_corr.reset_index().rename(columns={'index':'feature'}
   <thead>
     <tr>
       <th>feature</th>
-      <th>status</th>
+      <th>status_num</th>
       <th>abs_value</th>
       <th>scaled_value</th>
     </tr>
@@ -343,7 +343,76 @@ df_status_corr = df_status_corr.reset_index().rename(columns={'index':'feature'}
 <p>Doing this takes some work. We have to first create some functions.</p>
 
 <pre>
-  <code>
+  <code class = "language-python">
+    def nonlinear_bin(df, degree, weighted = False):
+    '''Creates a non linear model to represent data as function for granular grading'''
+    if weighted == True:
+        x = np.array(df['count']*df['active_count'])
+    else: 
+        x = np.array(df['count'])
+    y = np.array(df['percent'])
+
+    # print('Length of x:',len(x))
+    # print('Length of y:',len(y))
+
+
+    # Create polynomial features
+    poly = PolynomialFeatures(degree=degree)
+    X_poly = poly.fit_transform(x[:, np.newaxis])
+
+    # print('Length of X_poly:',len(X_poly))
+
+    # Perform linear regression on polynomial features
+    model = LinearRegression()
+    model.fit(X_poly, y)
+
+    return model.predict(X_poly)
+
+
+def active_change(df, column, degree = 2, weighted = False, nlr = True):
+
+    '''
+    This find the status ratio for the values in the bin. 
+    If the bin_size = 1, then this determines the status ratio for 
+    every value. 
+    For example, if the data was [1, 1, 1, 2, 1, 1, 2, 2, 2] and 
+    [Active, Cancelled, Cancelled, Active, Cancelled, Active, Cancelled, Cancelled, Cancelled]
+    We would get values 1: 2/5 = 0.4 and 2:1/4 = 0.25
+    
+    '''
+    # count = np.linspace(df[column].min().astype(int),df[column].max().astype(int),1 + df[column].max().astype(int) - df[column].min().astype(int))
+    # percent = np.zeros(len(np.linspace(df[column].min().astype(int),df[column].max().astype(int),1 + df[column].max().astype(int) - df[column].min().astype(int))))
+    # df_list = pd.DataFrame.from_dict({"count":count, "percent":percent})
+    
+    count = df[column].unique()
+    percent = np.zeros(len(count))
+    df_list = pd.DataFrame.from_dict({'count':count, 'percent':percent})
+    df_list = df_list.merge(pd.DataFrame(df[column].value_counts().rename('active_count')).reset_index(), left_on = 'count', right_on = 'index', how = 'left').sort_values('count')
+
+    
+    for i in df[column].unique().astype(int):
+            
+        if len(df[df[column]==i]) > 0:
+            df_list.loc[df_list['count']==i, 'percent'] = (len(df[(df['Status']=='ACTIVE') & (df[column]==i)])/len(df[df[column]==i]))
+        else:
+            df_list.loc[df_list['count']==i, 'percent'] = 0  
+
+    if nlr == True:
+        df_list['model'] = nonlinear_bin(df_list, degree, weighted)
+    else:
+        df_list['model'] =df_list['percent']
+
+    # stop the model at min = 0 and max = 1
+    df_list.loc[df_list['model'] > 1,'model'] = 1
+    df_list.loc[df_list['model'] < 0,'model'] = 0
+    # df_list = df_list.merge(pd.DataFrame(df[column].value_counts().rename('active_count')).reset_index(), left_on = 'count', right_on = 'index', how = 'left').sort_values('count')
+
+
+
+    # df_list['percent'] = df_list['percent']*100
+    df_list = df_list.reset_index(drop = True) #df_list[df_list['percent']!=0].reset_index(drop = True)
+
+    return df_list
 
   </code>
 </pre>
