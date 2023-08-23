@@ -68,6 +68,8 @@ description: How to fight crime...I mean churn.
     <li>Parameters. These are the columns, or features, that define the object or row.</li>
   </ol>
 </p>
+
+
   
 </table>
 <h4>Step 2: Calculate the correlation coefficients.</h4>
@@ -181,8 +183,41 @@ df_grade['score'] = df_grade[df_grade.columns[df_grade.columns.str.contains('_gr
   </code>
 </pre>
 
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+
+
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+<script src="{{site.baseurl}}/assets/vendor/js/bootstrap.min.js"></script>
 
 <script>
   // Initialize Prism.js for syntax highlighting
