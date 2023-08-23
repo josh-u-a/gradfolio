@@ -67,13 +67,159 @@ description: How to fight crime...I mean churn.
   <ol>
     <li>A unique id for each customer</li>
     <li>A status. I have five statuses: Active, Cancelled, In Trial, Paused, Non Renewing but I am treating everything that is not Active as Cancelled.</li>
-    <li>Parameters. These are the columns, or features, that define the object or row.</li>
+    <li>Parameters. These are the columns, or features, that define the object or row. Best to talk with stakeholders to get a sense of which parameters are worth having. Many parameters might be useless, or not actionable. For example, lets imagine that company of personal trainers are trying to determine which methods best help people lose weight and keep it off. When collecting data, there are somethings that likely won't have any correlation, like the clients favorite color. Alternatively, there will be somethings with high correlation, but are not actionable, like genetics. Sure, it might be something nice to know, but it's not a lever that can be pulled (at least not yet).</li>
   </ol>
+  My data looks something like this, just with more columns:
 </p>
 
-
-  
+<table class = "table table-dark">
+  <thead>
+    <tr>
+      <th>Company ID</th>
+      <th>Status</th>
+      <th>Company Name</th>
+      <th>Users</th>
+      <th>Active Users</th>
+      <th>Tasks</th>
+      <th>Tasks Completed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1005</td>
+      <td>ACTIVE</td>
+      <td>Imagined Real Estate Team</td>
+      <td>95.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>3042.0</td>
+    </tr>
+    <tr>
+      <td>1025</td>
+      <td>ACTIVE</td>
+      <td>Fake Real Estate Team</td>
+      <td>7.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>10353</td>
+      <td>CANCELLED</td>
+      <td>Made Up Real Estate Team</td>
+      <td>10.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>10452</td>
+      <td>ACTIVE</td>
+      <td>Fictional Real Estate Team</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>7.0</td>
+      <td>28.0</td>
+    </tr>
+    <tr>
+      <td>10486</td>
+      <td>ACTIVE</td>
+      <td>Not Real Real Estate Team</td>
+      <td>8.0</td>
+      <td>3.0</td>
+      <td>21.0</td>
+      <td>3865.0</td>
+    </tr>
+  </tbody>
 </table>
+
+<p>I do data manipulation in python using pandas. I also use a few other libraries and build some functions to help automate the work. </p>
+
+<pre>
+  <code class = "language-python">
+import pandas as pd
+pd.set_option("display.max_columns", None) # Don't truncate columns
+pd.options.display.max_colwidth = 1000 # Increase the size of the cells
+
+import numpy as np 
+import plotly.express as px # build figures
+px.defaults.template = "plotly_dark" # Set plotly to default dark mode
+
+# I use these to build the non linear models 
+from sklearn.linear_model import LinearRegression 
+from sklearn.preprocessing import PolynomialFeatures
+  </code>
+</pre>
+
+<p>By this point I have already gather data from several sources and cleaned the data, joined the data, created necessary columns (feature engineerin), and formatted teh data to be. Actually, before we get to the next step, we need to enumerate the <code>Status</code> and drop the <code>Company Name</code></p>
+
+<table class = "table table-dark">
+  <thead>
+    <tr>
+      <th>Company ID</th>
+      <th>Status</th>
+      <th>Users</th>
+      <th>Active Users</th>
+      <th>Tasks</th>
+      <th>Tasks Completed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1005</td>
+      <td>1</td>
+      <td>95.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>3042.0</td>
+    </tr>
+    <tr>
+      <td>1025</td>
+      <td>1</td>
+      <td>7.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>10353</td>
+      <td>-1</td>
+      <td>10.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>10452</td>
+      <td>1</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>7.0</td>
+      <td>28.0</td>
+    </tr>
+    <tr>
+      <td>10486</td>
+      <td>1</td>
+      <td>8.0</td>
+      <td>3.0</td>
+      <td>21.0</td>
+      <td>3865.0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>I set the </p>
+
+<pre>
+  <code class = "language-python">
+# Create a mapping from the categorical values to numerical values
+status_map = {'ACTIVE': 1, 'CANCELLED': -1, 'IN TRIAL': -1, 'PAUSED': -1, 'NON RENEWING': -1}
+
+# Create a new column with the numerical values
+df['Status'] = df['Status'].map(status_map)
+  </code>
+</pre>
+
 <h4>Step 2: Calculate the correlation coefficients.</h4>
 
 <p>
