@@ -250,6 +250,7 @@ corr_matrix = df.corr()
 # Find the correlations with the 'Status' column -- Isolate the correlation with 'Status'
 status_corr = corr_matrix['Status'].sort_values(ascending=False)
 </code>
+</pre>
 
 <h4>Step 3: Normalize and scale the correlation coefficients.</h4>
 
@@ -325,7 +326,7 @@ df_status_corr = df_status_corr.reset_index().rename(columns={'index':'feature'}
   </tbody>
 </table>
 
-<p>For each feature, this number is the <i>maximum contribution</i> that the feature can make toward the score of the row, or, in this context, the customer. This is worth remembering for later.</p>
+<p>For each feature, the scaled number is the <i>maximum contribution</i> that the feature can make toward the score of the row, or, in this context, the customer. This is worth remembering for later.</p>
 
 <h4>Step 4: Model each feature.</h4>
 
@@ -338,6 +339,14 @@ df_status_corr = df_status_corr.reset_index().rename(columns={'index':'feature'}
   </div>
 
   <p>This plot also illustrates an important component of the model, which is weight. This plot is treating every point weighted as one, and as such we get a smooth line. I did this for illustration purposes, but when devoloping the final model it is important to weight the points to give prepresentation to all the data. </p>
+
+<p>Doing this takes some work. We have to first create some functions.</p>
+
+<pre>
+  <code>
+
+  </code>
+</pre>
 
 <h4>Step 5: Determine the customer's grade for each parameter.</h4>
 
