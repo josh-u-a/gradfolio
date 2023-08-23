@@ -78,13 +78,13 @@
 //
 // Placed here since it has to come after the potential zebra striping
 
-.table-hover {
-  tbody tr {
-    @include hover {
-      background-color: $table-hover-bg;
-    }
-  }
-}
+// .table-hover {
+//   tbody tr {
+//     @include hover {
+//       background-color: $table-hover-bg;
+//     }
+//   }
+// }
 
 
 // Table backgrounds
@@ -142,14 +142,14 @@
     }
   }
 
-  &.table-hover {
-    tbody tr {
-      @include hover {
-        background-color: $table-dark-hover-bg;
-      }
-    }
-  }
-}
+//   &.table-hover {
+//     tbody tr {
+//       @include hover {
+//         background-color: $table-dark-hover-bg;
+//       }
+//     }
+//   }
+// }
 
 
 // Responsive tables
