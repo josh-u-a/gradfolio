@@ -300,69 +300,6 @@ $$r'_{i} = \frac{|r_{i}|}{\sum r} \qquad \forall i \in \{col_{1}, col_{2}, \ldot
 
 
 
-
-
-<pre>
-  <code class="language-python">
-column_list = []
-for i in df_use.select_dtypes(['number']).drop(['All_Time_Volume__c', 'count', 'Sisu_Platform_ID__c', 'SubscriptionLength__c', 'run_number', 'Snapshot_Run_Number__c', 'status_num', 'weeks_in_hs', 'first_run'], axis=1):
-
-    # Display the column being worked on
-    column_list.append(i)
-    padded_word = i.ljust(len(max(column_list, key=len)))
-    print(padded_word, end='\r')
-
-    # select type of grade
-    # using 'percent' will make the grade the actual active percentage where 'model' will make the grade the value of the nonlinear regression. 
-    grade_type = 'model'
-
-    
-    df = active_change(df_use[df_use[i].notna()], i, degree = 6, weighted = True, nlr = True)
-    # df = df[df['percent']!=0]
-    df[f'{i}_grade'] = df_status_corr[df_status_corr['index']==i]['scaled_values'].values[0]* df[grade_type] # using 'percent' in place of 'model' will make the grade the actual active percentage rather than the value of the nonlinear regression. 
-    # d[i] = df[f'{i}_grade'].to_list()
-    df = df.rename(columns={'count':'value', grade_type:f'{i}_health'})
-    df[f'{i}_health'] = df[f'{i}_health']*100
-    df_grade = df_grade.merge(df[['value', f'{i}_grade', f'{i}_health']], left_on = i, right_on = 'value', how='left')
-    df_grade = df_grade.drop('value', axis =1)
-
-# sum the grade columns and make score
-df_grade['score'] = df_grade[df_grade.columns[df_grade.columns.str.contains('_grade')]].fillna(0).T.sum()
-  </code>
-</pre>
-
-<table class="table table-dark">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
-
-
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
