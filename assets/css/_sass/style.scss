@@ -237,14 +237,14 @@ blockquote {
 //   box-shadow: 1px 1px rgba(0,0,0,0.1);
 // }
 
-// /* Dark mode styles for code text */
-// pre.language-python code {
-//   font-family: 'Bitstream Vera Sans Mono','Courier', monospace;
-//   color: #C9D1D9; /* Light text color */
-//   background-color: #263238; /* Dark background color */
-//   text-shadow:#263238;
-//   border-radius: 1px;
-// }
+/* Dark mode styles for code text */
+pre.language-python code {
+  font-family: 'Bitstream Vera Sans Mono','Courier', monospace;
+  color: #C9D1D9; /* Light text color */
+  background-color: #263238; /* Dark background color */
+  text-shadow:#263238;
+  border-radius: 1px;
+}
 
 pre[class*="language-"],
 code[class*="language-"] {
