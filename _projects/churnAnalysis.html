@@ -408,11 +408,11 @@ def active_change(df, column, degree = 2, weighted = False, nlr = True):
 
 <p>With these models, we can now measure each feature for each customer and determine that feature's contribution value. If that value was 100% in the model, then the customer will get the maximum contribution value for that feature. For example, if the feature was <code>logins_per_week</code>, which has a maximum contribution value of 4, and the feature value was 20 or more, and we saw from the model that customers that login in atleast 20 times per week were all active, then that customer would get the full 4 points for that feature. If instead, they had a value such that only 75% of customers with that value were active, then they would receive a value of 3 for that feature.</p>
 
-<h4>Step 5: Sum the contribution points.</h4>
+<h4>Step 6: Sum the contribution points.</h4>
 
 <p>Once every customer has had every feature graded, we sum the contribution points to see the customer's score. The value will be somewhere from 0 to 100, when 100 would mean that they got the maximum contribution points for every feature, and 0 would mean they got 0 for every feature.</p>
 
-<h4>Step 6: Compare the grades to the actual data and decide on an intervention threshold.</h4>
+<h4>Step 7: Compare the grades to the actual data and decide on an intervention threshold.</h4>
   
 <p>Now you have a story. Take a look at this plot below. The colors are the five statuses I mentioned earlier. The x-axis is the score and the y-axis is the number of customers. Looking at how everything is distributed we can decide on an intervention threshold. By eye, we might say that a grade lower than 65 needs intervention. </p>
 
