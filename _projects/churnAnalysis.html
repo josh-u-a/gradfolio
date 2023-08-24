@@ -340,7 +340,7 @@ df_status_corr = df_status_corr.reset_index().rename(columns={'index':'feature'}
 
   <p>This plot also illustrates an important component of the model, which is weight. This plot is treating every point weighted as one, and as such we get a smooth line. I did this for illustration purposes, but when devoloping the final model it is important to weight the points to give prepresentation to all the data. </p>
 
-<p>Doing this takes some work. We have to first create some functions.</p>
+<p>Doing this takes some work. Because we want to apply these models to every value for every team it makes sense to build the models as functions that can be called on when grading.</p>
 
 <pre>
   <code class = "language-python">
@@ -404,15 +404,49 @@ def active_change(df, column, degree = 2, weighted = False, nlr = True):
   </code>
 </pre>
 
+
 <h4>Step 5: Determine the customer's grade for each parameter.</h4>
 
-<p>With these models, we can now measure each feature for each customer and determine that feature's contribution value. If that value was 100% in the model, then the customer will get the maximum contribution value for that feature. For example, if the feature was <code>logins_per_week</code>, which has a maximum contribution value of 4, and the feature value was 20 or more, and we saw from the model that customers that login in atleast 20 times per week were all active, then that customer would get the full 4 points for that feature. If instead, they had a value such that only 75% of customers with that value were active, then they would receive a value of 3 for that feature.</p>
+<p>Once the model functions are in place, we can run a few lines to call on them:</p>
 
-<h4>Step 6: Sum the contribution points.</h4>
+<pre>
+  <code class = "language-python">
+df_grade = df.copy() # just to make sure we don't mess up our data lets make a copy
 
-<p>Once every customer has had every feature graded, we sum the contribution points to see the customer's score. The value will be somewhere from 0 to 100, when 100 would mean that they got the maximum contribution points for every feature, and 0 would mean they got 0 for every feature.</p>
+column_list = []
+for i in df[['numeric columns that are actionable']]:  #can also use df.select_dtypes(['number']) if all numeric columns are good
 
-<h4>Step 7: Compare the grades to the actual data and decide on an intervention threshold.</h4>
+    # Display the column being worked on
+    column_list.append(i)
+    padded_word = i.ljust(len(max(column_list, key=len)))
+    print(padded_word, end='\r')
+
+    # select type of grade
+    # using 'percent' will make the grade the actual active percentage where 'model' will make the grade the value of the nonlinear regression. 
+    grade_type = 'model'
+
+    
+    df_new = active_change(df_use[df_use[i].notna()], i, degree = 6, weighted = True, nlr = True)
+    
+    df_new[f'{i}_grade'] = df_status_corr[df_status_corr['index']==i]['scaled_values'].values[0]* df_new[grade_type] # using 'percent' in place of 'model' will make the grade the actual active percentage rather than the value of the nonlinear regression. 
+
+    df_new = df_new.rename(columns={'count':'value', grade_type:f'{i}_health'})
+    df_new[f'{i}_health'] = df_new[f'{i}_health']*100
+    df_grade = df_grade.merge(df_new[['value', f'{i}_grade', f'{i}_health']], left_on = i, right_on = 'value', how='left')
+    df_grade = df_grade.drop('value', axis =1)
+
+# sum the grade columns and make score
+df_grade['score'] = df_grade[df_grade.columns[df_grade.columns.str.contains('_grade')]].fillna(0).T.sum()
+  </code>
+</pre>
+
+<p>This will duplicate the <code>df</code> table and add columns with the score, contribution, of each feature <code>{feature_name}_grade</code> and a summation of these scores.</p>
+
+<p>If the contribution value (<code>{feature_name}_grade</code>) was 100% in the model, then the customer will get the maximum contribution value for that feature. For example, if the feature was <code>logins_per_week</code>, and lets say it has a maximum contribution value of 4, and the feature value for this customer was 25, and we saw from the model that customers that login in at least 20 times per week were all active, then that customer would get the full 4 points for that feature. If instead, they had a value such that only 75% of customers who log in 25 times a week were active, then they would receive a value of 3 for that feature. </p>
+
+<p>Finally, we take a summation of all the contribution values for each team. This number will fall somewhere between 0 and 100 and will be the customers health score.</p>
+
+<h4>Step 6: Compare the grades to the actual data and decide on an intervention threshold.</h4>
   
 <p>Now you have a story. Take a look at this plot below. The colors are the five statuses I mentioned earlier. The x-axis is the score and the y-axis is the number of customers. Looking at how everything is distributed we can decide on an intervention threshold. By eye, we might say that a grade lower than 65 needs intervention. </p>
 
