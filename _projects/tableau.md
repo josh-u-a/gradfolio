@@ -1,5 +1,6 @@
 ---
 layout: post
 title: Tableau Portfolio
-description: A few Tableau Dashboards
+description: Tableau Dashboards
 redirect: https://public.tableau.com/app/profile/joshyewa
+---
