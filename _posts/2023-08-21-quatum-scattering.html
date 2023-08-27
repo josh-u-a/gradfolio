@@ -4,9 +4,643 @@ title: Quantum Scattering
 description: How to fight crime...I mean churn. 
 ---
 
+<!DOCTYPE html>
+<html>
 
-<p>text text <b>bold text</b></p>
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+<link rel="stylesheet" href="{{site.baseurl}}/assets/css/main.css">
+    
+<!-- <title>Quantum Scattering</title> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+
+<body>
+
+<h5>Method for creating computational model of wave packet incident on a change in potential. 
+</h5>
+
+<!-- <p>Author: Joshua Spradlin</p>
+<p>Affiliation: Dept. of Physics &amp; Astronomy, Western Washington University, 516 High Street, Bellingham WA 98225</p>
+<p>Email: <a href="mailto:joshyewa@gmail.com">joshyewa@gmail.com</a></p> -->
+
+<h2>1. Introduction</h2>
+
+<p>It is well documented that when a quantum particle is 
+    incident on a change in potential, the probability density 
+    of the location of the particle becomes a combination of 
+    transmission and reflection coefficients. 
+    In Section <a href="#sec-Model">2</a>, the steps for constructing 
+    a model that will evolve the probability density of finding an 
+    incident quantum particle (or wave packet) over time, 
+    for any given potential, is presented. The model will also 
+    calculate the transmission and reflection coefficients at some 
+    given time. Methods for how confidence, in the model, is 
+    established will also be presented in 
+    Section <a href="#sec-Model">2</a>. 
+    In Section <a href="#sec-Results">3</a>, findings for the 
+    degree of confidence will be presented and key features, 
+    including limitations, of the model will be discussed. 
+    Section <a href="#sec-Conclusion">4</a> will recap and make 
+    considerations to future improvements for the model.</p>
+
+<h2 id="sec-Model">2. Model</h2>
+
+<h3>Theory</h3>
+
+<p>Construction of a model for finding the probability density of the location of a quantum particle incident on a potential change starts with the Schrödinger equation:</p>
+
+<div class="equation" id="eq-1">
+$$
+H\psi(x, t) = -i \frac{\partial}{\partial t}\psi(x, t)
+$$
+<div class="equation__number">[1]</div>
+</div>
+
+<p>with the solution:</p>
+
+<div class="equation" id="eq-2">
+$$
+\psi(x, t) = e^{-i H/\hbar}\psi(x, 0)
+$$
+<div class="equation__number">[2]</div>
+</div>
 
 
-<!-- <h1 class="post-headline">{{page.title}}</h1>
-<p class="meta"><small>{{page.date | date: '%B %d, %Y'}}</small></p> -->
+<!-- ... Rest of the content ... -->
+
+
+<p>Finding \( \psi(x, t+n\Delta t) \) is easy enough analytically using Eq. [<a href = "#eq-2">2</a>], but for numerical systems, the Hamiltonian in the exponential is a problem that motivates expressing the equation as a Taylor series:</p>
+
+<div class="equation" id="eq-3">
+\[
+    \psi(x, t+\Delta t) = \left({1-i \frac{\Delta t}{\hbar}H - \frac{\Delta t}{2\hbar^{2}}H^{2}\dots}\right)\psi(x, t).
+\]
+<div class="equation__number">[3]</div>
+</div>
+
+<p>By letting \( \Delta t \) be sufficiently small, the solution can be approximated to the first order:</p>
+
+<div class="equation" id="eq-4">
+$$
+\begin{align}
+    \psi(x, t+\Delta t) &\approx \left(1 - i\frac{\Delta t}{\hbar}H\right)\psi(x, t) \\
+ &= \left[1 - i\frac{\Delta t}{2 }\frac{\partial^{2}}{\partial x^{2}}+i \Delta t V(x)\right]\psi(x, t).
+\end{align}
+ $$
+<div class="equation__number">[4]</div>
+</div>
+
+<p>where \( \hbar = 1 \) and \( m = 1 \). Next, discretize space such that \( \psi_{m,n} \equiv \psi(m \Delta x, n \Delta t) \) and express the second-order differential equation in finite difference form:</p>
+
+<div class="equation" id="eq-5">
+\[
+    \psi_{m, n+1} \approx \psi_{m,n} + i\frac{\Delta t}{2 (\Delta x)^{2}}\left(\psi_{m+1, n}+\psi_{m-1, n} - 2\psi_{m,n} - (\Delta x)^{2}V_{m}\psi_{m,n}\right).
+\]
+<div class="equation__number">[5]</div>
+</div>
+
+<p>This \textit{explicit} difference scheme (\( \psi_{m, n+1} \) is found with \( \psi_{m,n} \)), although appealing, has the unfortunate ailment of being unstable due to round-off errors and the errors that show up when approximating the equation to the terms of order \( \Delta t \).</p>
+
+<p>Correcting the instability means revisiting Eq. [<a href = "#eq-2">2</a>] and rewriting it in an $\textit{implicit}$ form:</p>
+
+<div class="equation" id="eq-6">
+\[
+    \psi_{m,n} = e^{i\Delta t H}\psi_{m,n+1}
+\]
+<div class="equation__number">[6]</div>
+</div>
+
+<p>which gives over to another difference equation:</p>
+
+<div class="equation" id="eq-7">
+\[
+    \psi_{m,n} \approx \psi_{m,n+1} - i\frac{\Delta t}{(\Delta x)^2}\left(\psi_{m+1,n+1} + \psi_{m-1, n+1} - 2\psi_{m, n+1} - (\Delta x)^2V_{m}\psi_{m,n+1}\right).
+\]
+<div class="equation__number">[7]</div>
+</div>
+
+<p>Now, the instability is corrected, but there still remains a large issue that arises from approximating \( e^{\pm i \Delta t H} \) to any order. The issue is that by truncating the series, unitarity is no longer preserved. Fortunately, there is a simple way to preserve unitarity using the Cayley form:</p>
+
+<div class="equation" id="eq-8">
+\[
+    e^{-i \Delta t H} \approx \frac{1 - i\Delta t H/2}{1 + i\Delta t H/2}.
+\]
+<div class="equation__number">[8]</div>
+</div>
+
+<p>Revisiting Eq. [<a href = "#eq-2">2</a>] again and plugging in Eq. [<a href = "#eq-8">8</a>] gives:</p>
+
+<div class="equation" id="eq-9">
+\[
+    \left(1 + i\Delta t H/2\right)\psi_{m,n+1} = \left(1 - i\Delta t H/2\right)\psi_{m,n}.
+\]
+<div class="equation__number">[9]</div>
+</div>
+
+<!-- ... Previous content ... -->
+
+
+<p>Plugging in for \( H \) and writing in finite difference form gives an expression that is both stable <em>and</em> preserves unitarity:</p>
+
+<div class="equation" id="eq-10">
+\[
+\begin{align}\label{eq:11}
+    \psi_{m+1,n+1} &+ \left[i\lambda - (\Delta x)^{2}V_{m} - 2\right]\psi_{m, n+1} + \psi_{m-1, n+1} \nonumber \\
+   &= -\psi_{m+1, n} + \left[i\lambda + (\Delta x)^{2}V_{m}+2\right] \psi_{m,n} - \psi_{m-1, n}
+\end{align}
+\]
+<div class="equation__number">[10]</div>
+</div>
+
+<p>where \( \lambda = \frac{2(\Delta x)^{2}}{\Delta t} \). As Eq. [<a href = "#eq-10">10</a>] is still implicit, methods for solving it need to be presented.</p>
+
+<p>Begin by defining the right-hand side of Eq. [<a href = "#eq-10">10</a>] as:</p>
+
+<div class="equation" id="eq-11">
+\[
+\begin{align}\label{eq:12}
+    \Omega_{m,n} &= -\psi_{m+1, n} + \left[i\lambda + (\Delta x)^{2}V_{m}+2\right] \psi_{m,n} - \psi_{m-1, n}
+\end{align}
+\]
+<div class="equation__number">[11]</div>
+</div>
+
+<p>Thus Eq. [<a href = "#eq-10">10</a>] can be written as:</p>
+
+<div class="equation" id="eq-12">
+\[
+\begin{align}\label{eq:13}
+    \psi_{m+1,n+1} &+ \left[i\lambda - (\Delta x)^{2}V_{m} - 2\right]\psi_{m, n+1} + \psi_{m-1, n+1} = \Omega_{m,n}
+\end{align}
+\]
+<div class="equation__number">[12]</div>
+</div>
+
+<p>A common procedure is to express Eq. [<a href = "#eq-12">12</a>] in terms of auxiliary functions \( \mathfrak{e}_{m,n} \) and \( \mathfrak{f}_{m,n} \):</p>
+
+<div class="equation" id="eq-13">
+\[
+\begin{align}\label{eq:14}
+    \psi_{m+1,n+1} &= \mathfrak{e}_{m,n}\psi_{m,n+1} + \mathfrak{f}_{m,n}
+\end{align}
+\]
+<div class="equation__number">[13]</div>
+</div>
+
+<p>Plugging Eq. [<a href = "#eq-13">13</a>] back into Eq. [<a href = "#eq-12">12</a>] gives back an equation that is structurally equivalent to Eq. [<a href = "#eq-13">13</a>] but with \( \psi_{m,n+1} \) rather than \( \psi_{m+1,n+1} \):</p>
+
+<div class="equation" id="eq-14">
+\[
+\begin{align}\label{eq:15}
+    \psi_{m,n+1} &= \left[2+(\Delta x)V_{m}-\mathfrak{e}_{m,n}-i\lambda\right]^{-1}\psi_{m-1,n+1} \nonumber \\
+    &+ \left[2+(\Delta x)^{2}V_{m}-\mathfrak{e}_{m,n}-i\lambda\right]^{-1}\left(\mathfrak{f}_{m,n} - \Omega_{m,n}\right).
+\end{align}
+\]
+<div class="equation__number">[14]</div>
+</div>
+
+<p>If Eq. [<a href = "#eq-13">13</a>] is compared with Eq. [<a href = "#eq-14">14</a>], the result is:</p>
+
+<!-- ... Previous content ... -->
+
+<p>The equations can be written as:</p>
+
+<div class="equation" id="eq-15">
+\[
+\begin{align}\label{eq:16}
+    \mathfrak{e}_{m+1, n} &= \left[2+(\Delta x)^{2}V_{m}-\mathfrak{e}_{m,n}-i \lambda\right]^{-1} \nonumber \\ \\
+    \Rightarrow \mathfrak{e}_{m,n} &= \frac{2+(\Delta x)^{2}-i\lambda -1}{\mathfrak{e}_{m-1,n}}
+\end{align}
+\]
+<div class="equation__number">[15]</div>
+</div>
+
+<p>and</p>
+
+<div class="equation" id="eq-16">
+\[
+\begin{align}\label{eq:17}
+    \mathfrak{f}_{m-1, n} &= \mathfrak{e}_{m-1, n}\left(\mathfrak{f}_{m, n}-\Omega_{m,n}\right) \nonumber \\ \\
+    \Rightarrow \mathfrak{f}_{m,n} &= \frac{\Omega_{m,n}+\mathfrak{f}_{m-1,n}}{\mathfrak{e}_{m-1,n}}
+\end{align}
+\]
+<div class="equation__number">[16]</div>
+</div>
+
+<p>Unlike Eq. [<a href = "#eq-16">16</a>], Eq. [<a href = "#eq-15">15</a>] has no dependency on time, so the time index can be removed (\( \mathfrak{e}_{m,n} \rightarrow \mathfrak{e}_{m} \)).</p>
+
+<p>To solve Eq. [<a href = "#eq-15">15</a>] and Eq. [<a href = "#eq-16">16</a>], the boundary conditions of the system must be addressed.</p>
+<p>As the wave needs to vanish at the spatial boundaries, the solution at the spatial boundaries of a space extending from 0 to length \( L \) is:</p>
+
+<div class = "equation">
+\[
+\begin{align}
+    \psi(0,t) &= \psi(L,t) = 0 \text{ for all }t. \nonumber
+\end{align}
+\]
+</div>
+
+<p>For notation purposes, let the maximum spatial index be \( M \) such that \( L = (\Delta x) M \). This notation allows for indexing the solution with respect to the final spatial index:</p>
+
+<div class = "equation">
+\[
+\begin{align}
+    \psi_{0,n} &= \psi_{M,n} = 0 \text{ for all }n, \nonumber
+\end{align}
+\]
+</div>
+
+<p>which is helpful for solving an implicit difference equation.</p>
+
+<p>Using the first boundary condition and rewriting Eq. [<a href = "#eq-14">14</a>] with \( m = 1 \) gives:</p>
+
+<div class = "equation">
+\[
+\begin{align}
+    \psi_{2, n+1} &= \left[2+(\Delta x)^{2}V_{1}-i\lambda\right]\psi_{1,n+1}+\Omega_{1,n}. \nonumber
+\end{align}
+\]
+</div>
+
+<p>This gives the starting values for \( \mathfrak{e} \) and \( \mathfrak{f} \):</p>
+
+
+<div class = "equation">
+\[
+\begin{align}
+    \mathfrak{e}_{1} &= 2 + (\Delta x)^{2}V_{1} -i\lambda, \nonumber
+\end{align}
+\]
+</div>
+
+
+<div class = "equation">
+\[
+\begin{align}
+    \mathfrak{f}_{1,n} &= \Omega_{1,n}. \nonumber
+\end{align}
+\]
+</div>
+
+
+<!-- ... Rest of the content ... -->
+<!-- ... Previous content ... -->
+
+<p>With the starting values and Eqs. [<a href = "#eq-15">15</a>] & [<a href = "#eq-16">16</a>], there arises the ability to derive \( \mathfrak{e}_{1}, \dots, \mathfrak{e}_{M-1} \) and \( \mathfrak{f}_{1, n}, \dots, \mathfrak{f}_{M-1, n} \) for all time indices \( n \).</p>
+
+<p>Using the second boundary condition, rewrite Eq. [<a href = "#eq-13">13</a>], where \( m = M - 1 \):</p>
+
+<div class="equation">
+\[
+\begin{align}
+    \underbrace{\psi_{M,n+1}}_{0} = \mathfrak{e}_{M-1}\psi_{M-1, n+1} +\mathfrak{f}_{M-1, n} \nonumber
+\end{align}
+\]
+</div>
+
+<p>This leads to:</p>
+
+<div class="equation" id="eq-17">
+\[
+\begin{align}\label{eq:18}
+    \psi_{M-1,n+1} =  - \frac{\mathfrak{f}_{M-1, n}}{\mathfrak{e}_{M-1}}.
+\end{align}
+\]
+<div class="equation__number">[17]</div>
+</div>
+
+<p>Solving Eq. [<a href = "#eq-13">13</a>] for \( \psi_{m,n+1} \) gives:</p>
+
+<div class="equation" id="eq-18">
+\[
+\begin{align}\label{eq:19}
+    \psi_{m,n+1} = \frac{\psi_{m+1,n+1} - \mathfrak{f}_{m,n}}{\mathfrak{e}_{m}}.
+\end{align}
+\]
+<div class="equation__number">[18]</div>
+</div>
+
+<p>Plugging Eq. [<a href = "#eq-17">17</a>] into Eq. [<a href = "#eq-18">18</a>] gives \( \psi_{M-2, n+1} \), which, in turn, can be plugged into Eq. [<a href = "#eq-18">18</a>] to give \( \psi_{M-3,n+1} \) and so on until \( \psi_{1,n+1} \). Finding all of \( \psi_{m,n+1} \) provides the means of finding \( \Omega_{m,n+1} \) and, by extension, \( \mathfrak{f}_{m,n+1} \). This can be repeated to give \( \psi_{m,n} \) for all \( n \) and \( m \). All that is needed to initiate this is some initial wave function \( \psi_{m,0} \) which will be defined preferentially.</p>
+
+<h3>Initial Wave Packet</h3>
+
+<p>The shape of the initial wave packet will be Gaussian:</p>
+
+<div class="equation" id="eq-19">
+\[
+\begin{align}
+    \psi_{m,0} = \psi(x,0) =  A e^{-\left|x-x_{0}\right|/2\sigma_{0}^{2}}.
+\end{align}
+\]
+<div class="equation__number">[19]</div>
+</div>
+
+<p>where \( A \) is the normalization coefficient (See <a href = "#fig-1">Fig 1</a>). The wave packet is composed of a sum of plane waves in the form of \( e^{ikx} \). The waves are a collection of sine and cosine waves with amplitudes that, when added together, produce the Gaussian shape. There are varying wave vectors, \( k \), and as such varying velocities, half of which are directed in the \( -x \)-direction and the other half in the \( +x \)-direction. Due to the different \( k \)-values, the phenomenon called <i>spreading</i> occurs. That is, because \( p = mv = \hbar k \) and the uncertainty principle \( \Delta x \Delta p = \hbar/2 \), holding a particle inside a wave packet of some known width demands uncertainty in \( p \), and by extension demands uncertainty in \( k \).</p>
+
+<!-- ... Rest of the content ... -->
+
+<!-- ... Previous content ... -->
+
+<p><img src="{{site.baseurl}}/assets/images/packet.svg" alt="Gaussian wave packet" id = "fig-1"></p>
+<figcaption><b>Fig 1</b>: Gaussian wave packet with amplitude \( A = \frac{1}{\sqrt{2 \pi \sigma_{0}^{2}}} \), where \( \sigma_{0} \) is the width of the wave packet.</figcaption>
+
+<p>Because there are an equal number of wave vectors in the positive and negative direction, the wave packet is stationary. To overcome this, the wave packet is multiplied by another plain wave with the wave vector \( k_{0} \) which gives the propagating solution at time \( t=0 \):</p>
+
+<div class="equation" id="eq-20">
+\[
+\begin{align}
+    \psi(x,0) = Ae^{ikx - \left|x-x_0\right|/2\sigma_{0}^{2}}.
+\end{align}
+\]
+<div class="equation__number">[20]</div>
+</div>
+
+<h3>Pseudocode</h3>
+
+<ol>
+    <li>Define the potential \( V_{0} \)</li>
+    <li>Define initial wave equation \( \psi_{m,0} \)</li>
+    <li>From the wave equation find \( \Omega_{m,n} \)</li>
+    <li>Use \( \Omega_{m,n} \) to define auxiliary functions \( \mathfrak{e}_{m} \) and \( \mathfrak{f}_{m,n} \)</li>
+    <li>Use auxiliary functions to find \( \psi_{m,n+1} \) starting at \( \psi_{M-1,n+1} \) and moving to \( \psi_{1,n+1} \)</li>
+    <li>repeat (c) through (e) for \( n=1,\dots,N \)</li>
+</ol>
+
+<h3>Accuracy</h3>
+
+<p>The <strong>physical accuracy</strong> of the model was measured by comparing known analytic solutions to the values acquired from the computational model. Specifically for this, parameters for a potential barrier where the energy of the incident wave, \( E \), is greater than, less than, or equal to the magnitude of the barrier, \( V_{0} \). A test can also be made against potential steps and drops with varying energy in the incident wave.</p>
+
+<p>There will be some expected error when comparing the analytic solution to the model, as the model is of finite space which causes two points of concern:</p>
+
+<ul>
+    <li>The edges of the model must go to zero -- that is, the probability density goes to zero at a finite distance rather than at infinity.</li>
+    <li>The wave cannot interact with the boundaries, which are essentially infinite potential walls, when the goal is to measure the interaction with the set potential <i>only</i>. This means there is a finite amount of time to allow the system to evolve, where the analytic solution accounts for an infinite amount of time which, because \( k \) is very small, is needed for the probability density to clear the potential barrier region if there is tunnelling.</li>
+</ul>
+
+<p>Solving for a transmission coefficient analytically is done by finding the ratio of the modulus squared of the transmitted amplitudes with incident amplitudes:</p>
+
+<div class="equation" id="eq-21">
+\[
+\begin{align}
+    T = \frac{\left|F\right|^{2}}{\left|A\right|^{2}},
+\end{align}
+\]
+<div class="equation__number">[21]</div>
+</div>
+
+<p>where \( A \) is the amplitude of the incident plane wave and \( F \) is the amplitude of the transmitted plane wave. Similarly, finding the reflection coefficients is done by taking the ratio between the modulus squared of the reflected amplitudes with incident amplitudes:</p>
+
+<div class="equation" id="eq-22">
+\[
+\begin{align}
+    R = \frac{\left|B\right|^{2}}{\left|A\right|^{2}}.
+\end{align}
+\]
+<div class="equation__number">[22]</div>
+</div>
+
+<p>where again \( A \) is the amplitude of the incident plane wave and \( B \) is the amplitude of the reflected plane wave (see FIG. 1). These amplitudes come from the general solution of the Schrödinger Equation for the region they are in. For example, in Region I, the region left of the potential barrier (\( x<0 \)), \( A \) and \( B \) come from:</p>
+
+<div class="equation">
+\[
+\begin{align}
+    \psi(x)_{I}=Ae^{ikx}+Be^{-ikx}, \nonumber
+\end{align}
+\]
+</div>
+
+<p>where:</p>
+
+<div class="equation">
+\[
+\begin{align}
+    k = \frac{\sqrt{2 m E}}{\hbar}, \nonumber
+\end{align}
+\]
+</div>
+
+<p>is the general solution to:</p>
+
+<div class="equation">
+\[
+\begin{align}
+    \frac{\partial^{2}\psi_{I}}{dx^{2}}=-\frac{2mE}{\hbar^{2}}\psi_{I} \nonumber
+\end{align}
+\]
+</div>
+
+<!-- ... Previous content ... -->
+
+<p>which is the Schrödinger Equation where \( V_{0} > 0 \).</p>
+
+<p>To find these ratios, some boundary conditions have to be set which will provide an avenue to relate the coefficients from different regions:</p>
+
+<ol type="a">
+    <li>\( \psi \) is always continuous</li>
+    <li>\( \frac{d\psi}{dx} \) is always continuous except when the potential is infinite.</li>
+</ol>
+
+<p>For example, in <a href = "#fig-2">Fig 2</a> it can be seen that Region I and Region II share a boundary at \( x=0 \). Using the boundary conditions stated, the relationship between \( A \), \( B \), \( C \), and \( D \) can be made as follows:</p>
+
+\[
+\begin{align}
+    \left.\psi_{I}\right|_{x=0} &= \left.\psi_{II}\right|_{x=0} \nonumber \\ \\
+    A+B &= C+D \nonumber
+\end{align}
+\]
+
+<p>and:</p>
+
+\[
+\begin{align}
+    \left.\frac{d \psi_{I}}{dx}\right|_{x=0} &=\left.\frac{d \psi_{II}}{dx}\right|_{x=0} \nonumber \\ \\
+    ik\left(A-B\right) &= iq \left(C-D\right) \nonumber \\
+    k\left(A-B\right) &= q \left(C-D\right).  \nonumber
+\end{align}
+\]
+
+<!-- ... Previous content ... -->
+
+<p>This kind of relationship can be made for many potentials. Further details concerning where the coefficients come from can be found in Section 5.2 of <i>John R. Taylor's Classical Mechanics</i> where it goes over harmonic oscillation.</p>
+
+<div class="figure">
+    <img src="{{site.baseurl}}/assets/images/scattering.svg" alt="Scattering from potential barrier." id = "fig-2">
+    <p class="caption"><b>Fig 2</b>: Scattering from potential barrier of length \(a\) where \(E>V_{0}\).</p>
+</div>
+
+<p>The first step in measuring the <strong>numeric accuracy</strong> of the model is done by calculating the value of \(|\psi(x=X, t=T)|^{2}\) for a given \(\Delta x\) where \(X\) and \(T\) are arbitrarily chosen constant values for position and time respectively (see <a href = "#fig-3">Fig 3</a>). Next, \(\Delta x\) is increased by some constant value \(\gamma\) and the new value of \(|\psi(X, T)|^{2}\) is calculated. The value increase of \(\Delta x\) and subsequent measurement of \(|\psi(X, T)|^{2}\) is repeated for \(N\) times producing an array of values \(F_{i}, \dots, F_{N}\). The ratio between neighboring elements in the array, \(F_{i}/F_{i+1}\), should converge to 1 if the model is capable of having numeric stability. If there is convergence, likely for smaller \(i\) if it pertains to smaller \(\Delta x\), then the largest converged value will produce a model that preserves confidence with the minimal computation.</p>
+
+<div class="figure">
+    <img src="{{site.baseurl}}/assets/images/numeric.svg" alt="Example of sample." id = "fig-3">
+    <p class="caption"><b>Fig 3</b>: Example sample of $\left|\psi (X,T) \right|^{2}$ for some mesh size of $\Delta x$ where the vertical dashed line represents the $x=X$ value that is being measured.</p>
+</div>
+
+<h3>Parameters</h3>
+<p>The specific parameters chosen for this model were as follows:</p>
+<ul>
+    <li>\(\Delta x = 0.001\)</li>
+    <li>\(\Delta t = 10^{-7}\)</li>
+    <li>\(\sigma = \sqrt{0.001}\)</li>
+    <li>\(k = 500\)</li>
+</ul>
+<p>The actual \(x\)-value is in units of \(\sigma\), so if the \(x\)-field goes from 0 to 1, the actual length is the number \(1/\sigma\). For example, if \(a\) is 2% of the field, then the value of \(a\) is \(0.02/\sqrt{0.001}\).</p>
+
+<h2>3. Results</h2>
+<h3>Confidence</h3>
+<p>The analytic solutions to a potential barrier are, for \(E>V_{0}\):</p>
+
+<div class="equation" id="eq-23">
+\begin{align}
+    T= \frac{4 E \left(E - V_{0}\right)}{4 E \left(E-V_{0}\right)+V_{0}^{2}\sin^{2}\left(\frac{a}{\hbar\sqrt{2m\left(E-V_{0}\right)}}\right)},
+\end{align}
+<div class="equation__number">[23]</div>
+</div>
+
+<p>for \(E = V_{0}\):</p>
+
+<div class="equation" id="eq-24">
+\begin{align}
+    T = \frac{2 \hbar^{2}}{2\hbar^{2} +m E a^{2}},
+\end{align}
+<div class="equation__number">[24]</div>
+</div>
+
+<p>and for \(E < V_{0}\):</p>
+
+<div class="equation" id="eq-25">
+\begin{align}
+    T= \frac{4 E \left(V_{0} - E\right)}{4 E \left(V_{0}-E\right)+V_{0}^{2}\sinh^{2}\left(\frac{a}{\hbar\sqrt{2m\left(V_{0} - E\right)}}\right)}.
+\end{align}
+<div class="equation__number">[25]</div>
+</div>
+
+<!-- ... Previous content ... -->
+
+<p>The value of \(a\) was chosen to be 2% of the field. Recall that \(m = \hbar = 1\). It is important to note that for the analytic solution to be compared to the solution given by the model, it is not sufficient to reduce the analytic solution to the relationship between \(E\) and \(V_{0}\). That is, it matters what value \(E\) is, especially for the case where \(E<V_{0}\) because \(T\) is inversely proportional to a hyperbolic function. If \(E = 2\), then \(T \propto \frac{1}{\sinh^{2}(\sqrt{4})} = 0.076\), and if \(E = 20\), then \(T \propto \frac{1}{\sinh^{2}(\sqrt{40})} = 0.000012\), which is drastically different. As \(E \rightarrow \infty\), \(T \rightarrow 0\).</p>
+
+<p>The transmission coefficient values achieved analytically and numerically for this model are:</p>
+
+<table class = "table table-dark">
+    <tr>
+        <td>Energy vs. Potential</td>
+        <td>Analytic</td>
+        <td>Numeric</td>
+    </tr>
+    <tr>
+        <td>\(E > V_{0} = E/2\)</td>
+        <td>95.4 %</td>
+        <td>94.4 %</td>
+    </tr>
+    <tr>
+        <td>\(E = V_{0}\)</td>
+        <td>16.7 %</td>
+        <td>16.6 %</td>
+    </tr>
+    <tr>
+        <td>\(E < V_{0} = 2E\)</td>
+        <td>0 %</td>
+        <td>0 %</td>
+    </tr>
+</table>
+
+<p>which are very close. Something of note is that the numeric value is lower than the analytic counterpart in all measurements. This is likely due to the non-zero probability density left in Region II as a result of the finite time allowed for the model to evolve. Still, the numbers are close enough for confidence.</p>
+
+<p>The results for the numerical accuracy show that the solution to the Schrödinger Equation converges to a value as \(\Delta x\) gets smaller (see <a href = "#fig-4">Fig 4</a>). \(\Delta x\) was initialized at 0.001 and increased over \(N = 100\) times, where each incremental increase was \(\gamma = 0.001\).</p>
+
+<div class="figure">
+    <img src="{{site.baseurl}}/assets/images/scatterconverge.svg" alt="Example of sample." id = "fig-4">
+    <p class="caption"><b>Fig 4</b>: <b>(Left)</b> Results of convergence test for finding numerical accuracy in the model.</p>
+</div>
+
+<h3>Demonstrations</h3>
+
+<p>With confidence established, the model can be used to evolve the probability density of an incident wave, on any potential configuration, with trustworthy results. 
+    This can, and should be, extended to potentials that are difficult or impossible to calculate analytically.</p>
+
+<p>For added effect and information, taking the modulus squared of the Fourier Transform of the wave equations gives the probability density in \(k\)-space, which is a very useful metric for observing the evolution of momentum, energy, or velocity of the system. 
+    The model was produced with the intention of being animated; however, it was still possible to express the evolution of an incident wave, in both position and momentum space, on a potential barrier in a figure. 
+    <a href="#fig-5">Fig 5</a> shows just that for a wave incident on a barrier with \(V_{0} = E\), it can be seen that as the wave interacts with the barrier (Frame 400), the probability distribution of momentum begins moving from the initial position \(k_{V_{0}}\) to the left. As expected, the majority of the wave would be reflected, but a notable amount tunnels through. Note also that some of the probability distribution gets "stuck" in the potential barrier. This is because \(k\) is almost zero in the barrier, thus the wave is moving very slowly, and though it will clear this region, it will take some time longer than is available in this model. The tunneling is reflected in \(k\)-space as a tiny peak in the positive region. The most probable momentum is negative, which is consistent with the position probability distribution wave propagating in the negative \(x\)-direction.</p>
+
+<div class="figure">
+    <img src="{{site.baseurl}}/assets/images/process.svg" alt="Example of sample." id = "fig-5">
+    <p class="caption"><b>Fig 5</b>: <b>(Left)</b> Wave packet tunnelling through potential barrier with $V_{0} = E$ (seen in <a href = "#fig-3">Fig 3</a>), indicated by the dotted vertical lines. The parameters are the same as those used in $E=V_{0}$ when checking physical accuracy. Time is expressed in frames, each of which is separated by $\Delta t$. <b>(Right)</b> Fourier Transform of the the wave packet. The vertical dashed line is the height of potential barrier $k=\sqrt{2 m V_{0}}/\hbar$.</p>
+</div>
+
+<p>Another interesting potential is the well (see <a href = "#fig-6">Fig 6</a>). In <a href = "#fig-7">Fig 7</a>, it can be seen that as the wave propagates over the well, there is a reflection beginning near Frame 400 and again near Frame 500. The majority of the probability distribution passes over the well as would be expected. Again, both the transmission and reflection are expressed in \(k\)-space, where the highest probable measurement of momentum is positive; however, there is still some non-zero probability of finding the momentum to be negative.</p>
+
+<div class="figure">
+    <img src="{{site.baseurl}}/assets/images/well.svg" alt="Example of sample." id = "fig-6">
+    <p class="caption"><b>Fig 6</b>: Wave packet incident on potential well.</p>
+</div>
+
+<div class="figure">
+    <img src="{{site.baseurl}}/assets/images/process_well.svg" alt="Example of sample." id = "fig-7">
+    <p class="caption"><b>Fig 7</b>: <b>(Left)</b> Wave packet tunnelling through potential well with $V_{0} = -2E$, indicated by the dotted vertical lines. The parameters are also the same as those used in $E=V_{0}$ when checking physical accuracy. Again, time is expressed in frames, each of which is separated by $\Delta t$. <b>(Right)</b> Fourier Transform of the the wave packet. The vertical dashed line is the depth of potential well $k=-\sqrt{2 m |V_{0}|}/\hbar$.</p>
+</div>
+
+<p>Still, even though these last two examples are interesting, they are solvable analytically, and the overarching point of the model was to be able to model non-analytic events. <a href = '#fig-8'>Fig 8</a> shows a snapshot of a wave packet incident on a sinusoidal potential change. The result of this event can be seen in <a href = "#fig-9">Fig 9</a>. This has many interesting things to note. First, there is little or no reflection when the packet moves over the ridge of the parabolic-shaped well. Second, the probable range narrows when the packet moves onto the parabolic hump. Third, and possibly most interesting, is that there is no dramatic increase in the number of oscillations when interacting with the potential. This leads interest back to the potentials where the change was more abrupt (Frame 400 in <a href = "#fig-5">Fig 5</a> & <a href = "#fig-7">Fig 7</a>). This "wiggling" appears to be a Fourier series-like behavior in the attempt to maintain the boundary conditions.</p>
+
+
+<div class="figure">
+    <img src="{{site.baseurl}}/assets/images/sine.svg" alt="Example of sample." id = "fig-8">
+    <p class="caption"><b>Fig 8</b>: Wave packet incident on sinusoidal potential change.</p>
+</div>
+
+<div class="figure">
+    <img src="{{site.baseurl}}/assets/images/process_sine.svg" alt="Example of sample." id = "fig-9">
+    <p class="caption"><b>Fig 9</b>: <b>(Left)</b> Wave packet incident on sinusoidal potential change. The dashed vertical lines are the edges of the potential change. <b>(Right)</b> $k$-space for the wave packet incident on the sinusoidal potential change. The vertical dashed lines are the $k$-values for the maximum and minimum potential.</p>
+</div>
+
+<!-- ... Previous content ... -->
+
+<h2>Limitations</h2>
+
+<ul>
+    <li>Rounding errors. The model is very precise but it is always important to mention that what has been developed is an approximation.</li>
+    <li>The finite span of the spatial field limits the time for the probability distribution to evolve as well as sets the boundary to zero which, although a great approximation, is unphysical.</li>
+</ul>
+
+<h2>4. Conclusion</h2>
+
+<p>
+    The goal, which was to develop a model to evolve the probability distribution of an incident wave packet on a potential change, was met. Theory was presented, along with pseudocode and methodology for determining the accuracy of the model. 
+    The model ultimately provides comfort in its results which could extend into events that are not easily verified. Parameters used were presented as well as the results. 
+    Three specific events with different potential changes were presented and discussed. Finally, limitations for the model were presented. 
+    A further extension to this work could be navigation into a 2-dimensional model. The theory behind this model was heavily influenced by the paper by Goldberg, Schey, and Schwartz which can be found in the references.</p>
+
+
+<!-- ... Previous content ... -->
+
+<h2>5. References</h2>
+
+<ol>
+    <li>
+        <p>A. Goldberg, H. M. Schey, and J. L. Schwartz, <em>Computer-Generated Motion Pictures of One-Dimensional Quantum-Mechanical Transmission and Reflection Phenomena</em>, <em>American Journal of Physics</em>, March 1967</p>
+    </li>
+    <li>
+        <p>N. J. Giordan, H. Nakanishi, <em>Computational Physics</em>, <em>Second Edition</em>, Pearson, 2006</p>
+    </li>
+</ol>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+<script>
+  // Initialize Prism.js for syntax highlighting
+  Prism.highlightAll();
+</script>
+
+</body>
+
+</html>
+
